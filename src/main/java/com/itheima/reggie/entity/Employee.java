@@ -3,6 +3,7 @@ package com.itheima.reggie.entity;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -31,8 +32,10 @@ public class Employee implements Serializable {
 
     private Integer status;
 
+    @DateTimeFormat
     private LocalDateTime createTime;
 
+    @DateTimeFormat
     private LocalDateTime updateTime;
 
     @TableField(fill = FieldFill.INSERT)

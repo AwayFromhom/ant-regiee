@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
     /**
-     * 设置静态资源映射
+     * 设置静态资源映射,访问resources目录下的文件
      * @param registry
      */
     @Override
