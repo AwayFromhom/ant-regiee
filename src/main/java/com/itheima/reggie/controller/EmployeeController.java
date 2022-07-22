@@ -2,6 +2,7 @@ package com.itheima.reggie.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.itheima.reggie.common.R;
 import com.itheima.reggie.entity.Employee;
@@ -13,10 +14,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+
 
 @Slf4j
 @RestController
-@RequestMapping("/api/employee")
+//@RequestMapping(value ="/api/employee")
+@RequestMapping(value ="/api/employee",produces = "application/json;charset=utf-8")
 public class EmployeeController {
 
     @Autowired
@@ -35,8 +39,7 @@ public class EmployeeController {
         String password = employee.getPassword();
        password = DigestUtils.md5DigestAsHex(password.getBytes());
         String username = employee.getUsername();
-        log.info("password = " + password);
-        log.info( "username = "+ username);
+
 
         //2、根据页面提交的用户名username查询数据库
         LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
@@ -111,7 +114,7 @@ public class EmployeeController {
         employee.setCreateUser(empid);
         employee.setUpdateUser(empid);
 
-        log.info("新增员工，{}",employee);
+
 
         employeeService.save(employee);
 
@@ -124,10 +127,8 @@ public class EmployeeController {
      **/
     @GetMapping("/page")
     public String getemployees(int current, int pageSize, String name, String username, String phone){
-       log.info("current = {},pageSize = {},name = {},username = {},phone = {} ",current,pageSize,name,username,phone);
-       //构造分页构造器
+            //构造分页构造器
         Page pageinfo = new Page(current,pageSize);
-
         //构造条件构造器
         LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper();
         //添加过滤条件
@@ -137,17 +138,51 @@ public class EmployeeController {
         //排序条件
         queryWrapper.orderByDesc(Employee::getCreateTime);
 
-
         //执行查询
         employeeService.page(pageinfo,queryWrapper);
-        System.out.println(pageinfo);
+
         JSONObject result = new JSONObject();
         result.put("success",true);
         result.put("total", pageinfo.getTotal());
         result.put("data",pageinfo.getRecords() );
         return result.toJSONString();
     }
+    /**
+     * 修改员工信息
+     * @param
+     * @return
+     */
+    @PutMapping("")
+    public R<String> update (HttpServletRequest request,@RequestBody Employee employee){
+    Long emplid = (Long) request.getSession().getAttribute("employee");
+//        employee.setUpdateUser(emplid);
+//        employee.setUpdateTime(LocalDateTime.now());
 
+//        employeeService.updateById(employee);
+
+        employee.setUpdateUser(emplid);
+        employee.setUpdateTime(LocalDateTime.now());
+
+        UpdateWrapper<Employee> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("username",employee.getUsername());
+
+        employeeService.update(employee,updateWrapper);
+
+        return R.success("ok");
+    }
+
+    @DeleteMapping ("/delete")
+    public R<String> delete (HttpServletRequest request,@RequestBody ArrayList<Long> keys){
+        System.out.println(keys);
+       boolean r = employeeService.removeByIds(keys);
+       if(r){
+           return  R.success("删除成功！");
+       }
+       return R.error("null");
+
+
+
+    }
 
 
 //    @GetMapping("/TEST")
