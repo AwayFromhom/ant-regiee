@@ -3,48 +3,44 @@ package com.itheima.reggie.entity;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 员工实体
+ * 分类
  */
 @Data
-public class Employee implements Serializable {
+public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-//    @JsonSerialize(using = ToStringSerializer.class)
-//    @JsonFormat(shape =JsonFormat.Shape.STRING )
     private Integer id;
 
-    private String username;
+    //类型 1 菜品分类 2 套餐分类
+    private Integer type;
 
+    //分类名称
     private String name;
 
-    private String password;
+    //顺序
+    private Integer sort;
 
-    private String phone;
-
-    private String sex;
-
-    private String idNumber;//身份证号码
-
-    private Integer status;
+    //创建时间
     @TableField(fill = FieldFill.INSERT)
-    @DateTimeFormat
     private LocalDateTime createTime;
 
+    //更新时间
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    @DateTimeFormat
     private LocalDateTime updateTime;
 
+    //创建人
     @TableField(fill = FieldFill.INSERT)
-    private int createUser;
+    private Long createUser;
 
+
+    //修改人
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private int updateUser;
+    private Long updateUser;
 
 }

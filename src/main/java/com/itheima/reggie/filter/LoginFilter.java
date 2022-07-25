@@ -1,5 +1,6 @@
 package com.itheima.reggie.filter;
 
+import com.itheima.reggie.common.BaseContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
 
@@ -47,7 +48,7 @@ public class LoginFilter implements Filter {
         String [] urls = new String[]{
                 "/api/employee/logout",
                "/api/employee/login",
-                "/api/employee/**"
+//                "/api/employee/**"
 
         };
         //2.判断请求是否处理？
@@ -57,10 +58,11 @@ public class LoginFilter implements Filter {
             log.info(" {} 放行 " ,uri);
             return;
         }
-
-        if(request.getSession().getAttribute("employee")!=null) {
+       Integer empid = (Integer) request.getSession().getAttribute("employee");
+        if(empid!=null) {
+            BaseContext.setCurrentId(empid);
             filterChain.doFilter(request, response);
-            log.info(" {} 放行 " ,uri);
+            log.info(" 用户{}已登录 ",request.getSession().getAttribute("employee") );
             return;
         };
         log.info("拦截 请求 {} " ,uri);

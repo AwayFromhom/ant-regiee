@@ -2,7 +2,6 @@ package com.itheima.reggie.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.itheima.reggie.common.R;
 import com.itheima.reggie.entity.Employee;
@@ -13,7 +12,6 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 
@@ -39,7 +37,7 @@ public class EmployeeController {
         String password = employee.getPassword();
        password = DigestUtils.md5DigestAsHex(password.getBytes());
         String username = employee.getUsername();
-
+        log.info("password: " + password);
 
         //2、根据页面提交的用户名username查询数据库
         LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
@@ -74,7 +72,7 @@ public class EmployeeController {
     @GetMapping("/currentUser")
     public R<Employee> login(HttpServletRequest request) {
         //获取员工id
-        Long emplid = (Long) request.getSession().getAttribute("employee");
+        Integer emplid = (Integer) request.getSession().getAttribute("employee");
 
         //2、根据session id查询数据库
         LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
@@ -106,15 +104,18 @@ public class EmployeeController {
 
        String password = DigestUtils.md5DigestAsHex("12345".getBytes());employee.setPassword(password);
 
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
+//
+//
+//        employee.setCreateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
+//
+//        Integer empid = (Integer) request.getSession().getAttribute("employee");
+//
+//        employee.setCreateUser(empid);
+//        employee.setUpdateUser(empid);
 
-        Long empid = (Long) request.getSession().getAttribute("employee");
 
-        employee.setCreateUser(empid);
-        employee.setUpdateUser(empid);
-
-
+        log.info("adding employee " + employee);
 
         employeeService.save(employee);
 
@@ -154,25 +155,25 @@ public class EmployeeController {
      */
     @PutMapping("")
     public R<String> update (HttpServletRequest request,@RequestBody Employee employee){
-    Long emplid = (Long) request.getSession().getAttribute("employee");
+//    Integer emplid = (Integer) request.getSession().getAttribute("employee");
 //        employee.setUpdateUser(emplid);
 //        employee.setUpdateTime(LocalDateTime.now());
 
-//        employeeService.updateById(employee);
+        employeeService.updateById(employee);
 
-        employee.setUpdateUser(emplid);
-        employee.setUpdateTime(LocalDateTime.now());
-
-        UpdateWrapper<Employee> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("username",employee.getUsername());
-
-        employeeService.update(employee,updateWrapper);
+//        employee.setUpdateUser(emplid);
+//        employee.setUpdateTime(LocalDateTime.now());
+//
+//        UpdateWrapper<Employee> updateWrapper = new UpdateWrapper<>();
+//        updateWrapper.eq("username",employee.getUsername());
+//
+//        employeeService.update(employee,updateWrapper);
 
         return R.success("ok");
     }
 
     @DeleteMapping ("/delete")
-    public R<String> delete (HttpServletRequest request,@RequestBody ArrayList<Long> keys){
+    public R<String> delete (HttpServletRequest request,@RequestBody ArrayList<Integer> keys){
         System.out.println(keys);
        boolean r = employeeService.removeByIds(keys);
        if(r){
