@@ -42,9 +42,9 @@ public class Employee implements Serializable {
     private LocalDateTime updateTime;
 
     @TableField(fill = FieldFill.INSERT)
-    private int createUser;
+    private Integer createUser;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private int updateUser;
+    private Integer updateUser;
 
 }

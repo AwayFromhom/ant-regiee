@@ -18,7 +18,7 @@ import java.util.ArrayList;
 @Slf4j
 @RestController
 //@RequestMapping(value ="/api/employee")
-@RequestMapping(value ="/api/employee",produces = "application/json;charset=utf-8")
+@RequestMapping(value = "/api/employee",produces = "application/json;charset=utf-8")
 public class EmployeeController {
 
     @Autowired
@@ -99,7 +99,7 @@ public class EmployeeController {
      * @param
      * @return
      */
-    @PostMapping("")
+    @PostMapping
     public R<String> addemployee(HttpServletRequest request,@RequestBody Employee employee){
 
        String password = DigestUtils.md5DigestAsHex("12345".getBytes());employee.setPassword(password);
@@ -153,7 +153,7 @@ public class EmployeeController {
      * @param
      * @return
      */
-    @PutMapping("")
+    @PutMapping
     public R<String> update (HttpServletRequest request,@RequestBody Employee employee){
 //    Integer emplid = (Integer) request.getSession().getAttribute("employee");
 //        employee.setUpdateUser(emplid);
@@ -172,17 +172,15 @@ public class EmployeeController {
         return R.success("ok");
     }
 
-    @DeleteMapping ("/delete")
+    @DeleteMapping
     public R<String> delete (HttpServletRequest request,@RequestBody ArrayList<Integer> keys){
-        System.out.println(keys);
-       boolean r = employeeService.removeByIds(keys);
-       if(r){
+        for (Integer key : keys) {
+
+            if(key !=1){
+                employeeService.removeById(key);
+            }
+        }
            return  R.success("删除成功！");
-       }
-       return R.error("null");
-
-
-
     }
 
 

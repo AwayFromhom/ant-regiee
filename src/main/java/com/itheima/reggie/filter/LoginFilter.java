@@ -62,7 +62,7 @@ public class LoginFilter implements Filter {
         if(empid!=null) {
             BaseContext.setCurrentId(empid);
             filterChain.doFilter(request, response);
-            log.info(" 用户{}已登录 ",request.getSession().getAttribute("employee") );
+            log.info(" 用户{}已登录url:{}",request.getSession().getAttribute("employee"),uri );
             return;
         };
         log.info("拦截 请求 {} " ,uri);

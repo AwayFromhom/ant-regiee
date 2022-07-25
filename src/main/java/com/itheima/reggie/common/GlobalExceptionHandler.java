@@ -32,6 +32,17 @@ public class GlobalExceptionHandler {
             return  R.error(msg);
         }
         return  R.error("未知错误！！！！！");
+    }
 
+    /**
+     * 处理自定义的异常
+     * @param exception
+     * @return
+     */
+    @ExceptionHandler(CustomException.class)
+    public R<String> getCustomException(CustomException exception) {
+        String message = exception.getMessage();
+        log.error(message);
+        return  R.error(message);
     }
 }
