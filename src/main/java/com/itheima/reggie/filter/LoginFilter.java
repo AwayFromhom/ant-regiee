@@ -48,6 +48,7 @@ public class LoginFilter implements Filter {
         String [] urls = new String[]{
                 "/api/employee/logout",
                "/api/employee/login",
+                "/api/**",
 //                "/api/employee/**"
 
         };

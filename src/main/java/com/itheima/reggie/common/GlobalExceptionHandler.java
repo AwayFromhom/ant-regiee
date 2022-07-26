@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 @ControllerAdvice(annotations = {Controller.class, RestController.class})
@@ -44,5 +45,12 @@ public class GlobalExceptionHandler {
         String message = exception.getMessage();
         log.error(message);
         return  R.error(message);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public R<String> getFileSizeLimitException(IOException exception) {
+        String message = exception.getMessage();
+        log.error(message);
+        return  R.error("图片过大请重新上传。");
     }
 }

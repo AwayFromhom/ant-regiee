@@ -28,3 +28,7 @@ mybatis-plus:
     thymeleaf:
       template-file:
         encoding: utf-8
+
+regiee:
+  photo:
+    path: "D:\\JAVA\\PROJECT\\DEMO\\reggie_take_out\\src\\main\\resources\\Photo\\"
