@@ -48,9 +48,7 @@ public class LoginFilter implements Filter {
         String [] urls = new String[]{
                 "/api/employee/logout",
                "/api/employee/login",
-                "/api/**",
-//                "/api/employee/**"
-
+//                "/api/**",
         };
         //2.判断请求是否处理？
         boolean matches = matches(uri, urls);

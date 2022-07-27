@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
 
         if(message.contains("Duplicate entry")){
             String[] split = message.split(" ");
-            String msg = "用户名"+split[2] + "已存在";
+            String msg = split[2] + "已存在";
             return  R.error(msg);
         }
         return  R.error("未知错误！！！！！");
@@ -51,6 +51,6 @@ public class GlobalExceptionHandler {
     public R<String> getFileSizeLimitException(IOException exception) {
         String message = exception.getMessage();
         log.error(message);
-        return  R.error("图片过大请重新上传。");
+        return  R.error("IOException");
     }
 }

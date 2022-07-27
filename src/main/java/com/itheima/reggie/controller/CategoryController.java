@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 分类管理
@@ -84,6 +85,33 @@ public class CategoryController {
             return  R.success("删除成功！");
     }
 
+
+    /**
+     * 根据type查询套餐
+     * @param type
+     * @return
+     */
+    @GetMapping("/querycategory/{type}")
+    public R<List<Category>> getQueryCategory(@PathVariable(name="type") String type) {
+
+        //条件构造器
+        LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper();
+        //添加条件 按照顺序排序
+        queryWrapper.eq(Category::getType,type).orderByAsc(Category::getSort)
+                .orderByDesc(Category::getCreateTime);
+
+        //遍历分类表
+        List<Category> list = categoryService.list(queryWrapper);
+
+//        Category category = new Category();
+//        category.setName("haha");
+//        category.setId(5);
+//        ArrayList<Category> categories = new ArrayList<Category>();
+//        categories.add(category);
+
+        return R.success(list);
+
+    }
 
 
 }

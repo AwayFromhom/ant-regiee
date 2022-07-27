@@ -22,7 +22,7 @@ public class Dish implements Serializable {
 
 
     //菜品分类id
-    private Long categoryId;
+    private Integer categoryId;
 
 
     //菜品价格
