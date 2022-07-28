@@ -3,10 +3,7 @@ package com.itheima.reggie.controller;
 import com.itheima.reggie.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
@@ -18,7 +15,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/upload",produces = "application/json;charset=utf-8")
+@RequestMapping(value = "/api/file",produces = "application/json;charset=utf-8")
 public class fileController {
 
     @Value("${regiee.photo.path}")
@@ -50,10 +47,10 @@ public class fileController {
            return R.success(filename);
     }
 
-    @GetMapping("/downloaddish")
-    public R<String> downloadDish(String filename, HttpServletResponse response) throws IOException {
+    @GetMapping("/downloaddish/{image}")
+    public R<String> downloadDish(@PathVariable(name = "image") String image, HttpServletResponse response) throws IOException {
         //输入流通过输入流读取文件内容
-        FileInputStream fileInputStream = new FileInputStream(new File(basePath+filename));
+        FileInputStream fileInputStream = new FileInputStream(new File(basePath+image));
 
         //输出流通过输出流将文件写会浏览器
         ServletOutputStream outputStream = response.getOutputStream();
@@ -71,7 +68,7 @@ public class fileController {
         outputStream.close();
         fileInputStream.close();
 
-        return R.success(filename);
+        return R.success(image);
 
     }
 

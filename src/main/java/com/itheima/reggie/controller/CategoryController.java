@@ -113,5 +113,11 @@ public class CategoryController {
 
     }
 
+    @PostMapping("/querycategoryname/{categoryId}")
+    public void queryCategoryName(@PathVariable(name="categoryId")int  categoryId) {
+
+        System.out.println(categoryId);
+    }
+
 
 }
