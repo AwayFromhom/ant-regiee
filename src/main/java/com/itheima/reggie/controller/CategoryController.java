@@ -103,21 +103,15 @@ public class CategoryController {
         //遍历分类表
         List<Category> list = categoryService.list(queryWrapper);
 
-//        Category category = new Category();
-//        category.setName("haha");
-//        category.setId(5);
-//        ArrayList<Category> categories = new ArrayList<Category>();
-//        categories.add(category);
-
         return R.success(list);
 
     }
 
-    @PostMapping("/querycategoryname/{categoryId}")
-    public void queryCategoryName(@PathVariable(name="categoryId")int  categoryId) {
-
-        System.out.println(categoryId);
-    }
+//    @PostMapping("/querycategoryname/{categoryId}")
+//    public void queryCategoryName(@PathVariable(name="categoryId")int  categoryId) {
+//
+//        System.out.println(categoryId);
+//    }
 
 
 }
