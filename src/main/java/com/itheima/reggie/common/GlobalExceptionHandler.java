@@ -53,4 +53,12 @@ public class GlobalExceptionHandler {
         log.error(message);
         return  R.error("IOException");
     }
+    @ExceptionHandler(NullPointerException.class)
+    public R<String> getNullPointerException(NullPointerException exception){
+        String message = exception.getMessage();
+        log.error(message);
+        return  R.error("查不到请重新搜索");
+    }
+
+
 }
