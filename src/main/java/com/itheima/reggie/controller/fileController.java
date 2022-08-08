@@ -27,7 +27,7 @@ public class fileController {
      * @return
      * @throws IOException
      */
-    @PostMapping("/adddish")
+    @PostMapping("/addphoto")
     public R<String> adddish(MultipartFile file) throws IOException {
 
         //获取原始文件名

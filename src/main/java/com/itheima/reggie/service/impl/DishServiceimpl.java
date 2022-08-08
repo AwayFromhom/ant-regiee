@@ -46,6 +46,9 @@ public class DishServiceimpl extends ServiceImpl<DishMapper, Dish> implements Di
 
         //得到dishId,根据dishId对对应的flavor进行修改
         Integer id = dto.getId();
+
+        ArrayList<DishFlavor> flavors = dto.getFlavors();
+        if (flavors!=null) {
         //删除flavor中所有的改id对应的值
         //添加查询条件，根据分类id查询
         LambdaQueryWrapper<DishFlavor> dishqueryWrapper = new LambdaQueryWrapper();
@@ -53,8 +56,6 @@ public class DishServiceimpl extends ServiceImpl<DishMapper, Dish> implements Di
         //删除
         flavorService.remove(dishqueryWrapper);
         //添加新的flavor属性
-        ArrayList<DishFlavor> flavors = dto.getFlavors();
-        if (flavors.size() > 0) {
             for (DishFlavor flavor : flavors) {
                 //如果集合里面没有相同的元素才往里存
                 flavor.setDishId(id);
